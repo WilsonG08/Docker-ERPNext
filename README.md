@@ -1,9 +1,14 @@
-nstrucciones para clonar y configurar el repositorio
-Abre una terminal en tu computadora.
-Copia y pega el siguiente comando para clonar el repositorio:
+# Docker-ERPNext
+
+Este repositorio contiene el código para Docker-ERPNext.
+
+## Instrucciones de instalación
+
+Sigue estos pasos para clonar y configurar el repositorio en tu máquina local:
+
+1. Abre una terminal.
+
+2. Clona el repositorio con el siguiente comando:
+
+```bash
 git clone https://github.com/WilsonG08/Docker-ERPNext.git
-
-Navega al directorio del repositorio clonado:
-cd Docker-ERPNext
-
-Aquí puedes agregar más instrucciones según sea necesario.

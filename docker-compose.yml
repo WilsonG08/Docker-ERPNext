@@ -1,33 +1,72 @@
+# Especifica la versión de Docker Compose que se está utilizando.
 version: "3.7"
+
+# Define los servicios que se van a crear.
 services:
+  # Define un servicio llamado mariadb.
   mariadb:
+    # Especifica la imagen de Docker que se utilizará para este servicio, en este caso, la versión 10.6 de MariaDB.
     image: docker.io/mariadb:10.6
+
+    # Define los comandos que se ejecutarán al iniciar el contenedor.
     command:
+      # Establece el conjunto de caracteres del servidor a utf8mb4.
       - --character-set-server=utf8mb4
+
+      # Establece la collation del servidor a utf8mb4_unicode_ci.
       - --collation-server=utf8mb4_unicode_ci
+
+      # Ignora el handshake de conjunto de caracteres del cliente.
       - --skip-character-set-client-handshake
-      - --skip-innodb-read-only-compressed # Solución temporal para MariaDB 10.6
+
+      # Ignora la opción innodb-read-only-compressed. Es una solución temporal para MariaDB 10.6.
+      - --skip-innodb-read-only-compressed
+
+    # Define las variables de entorno para el servicio.
     environment:
+      # Establece la contraseña del usuario root de MySQL a 123.
       MYSQL_ROOT_PASSWORD: 123
+
+    # Define los volúmenes para el servicio.
     volumes:
+      # Mapea el volumen mariadb-data al directorio /var/lib/mysql en el contenedor.
       - mariadb-data:/var/lib/mysql
 
+  # Define dos servicios Redis, ambos utilizando la imagen docker.io/redis:alpine.
   redis-cache:
     image: docker.io/redis:alpine
 
   redis-queue:
     image: docker.io/redis:alpine
 
+  # Define un servicio llamado frappe.
   frappe:
+    # Especifica la imagen de Docker que se utilizará para este servicio, en este caso, la última versión de Frappe Bench.
     image: docker.io/frappe/bench:latest
+
+    # Hace que el servicio duerma indefinidamente después de iniciarse.
     command: sleep infinity
+
+    # Define las variables de entorno para el servicio.
     environment:
+      # Establece la variable de entorno SHELL a /bin/bash.
       - SHELL=/bin/bash
+
+    # Define los volúmenes para el servicio.
     volumes:
+      # Mapea el directorio actual al directorio /workspace en el contenedor.
       - ..:/workspace:cached
+
+    # Establece el directorio de trabajo en el contenedor a /workspace/development.
     working_dir: /workspace/development
+
+    # Define los puertos que se expondrán.
     ports:
+      # Mapean los puertos 8000-8005 y 9000-9005 del host a los mismos puertos en el contenedor.
       - 8000-8005:8000-8005
       - 9000-9005:9000-9005
+
+# Define los volúmenes que se utilizarán.
 volumes:
+  # Define un volumen llamado mariadb-data. Este volumen se utiliza para persistir los datos de MariaDB.
   mariadb-data:
